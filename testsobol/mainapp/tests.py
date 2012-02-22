@@ -7,10 +7,17 @@ Replace this with more appropriate tests for your application.
 
 from django.test import TestCase
 
+from models import Bio
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+
+class IndexViewTest(TestCase):
+    def test(self):
+        fixtures = ['initial_data.json']
+        bio = Bio.objects.get(pk = 1)
+        page = self.client.get('')
+
+        self.assertEqual(page.status_code, 200)
+
+        lines = ('name','surname','birth','email','jabber','skype','bio','other',)
+        for line in lines:
+            self.assertEqual(page.context[line],getattr(bio,line))

@@ -1,0 +1,22 @@
+body{
+    width: 800px;
+    margin : 0 auto;
+}
+
+li{
+    list-style-type: none;
+}
+
+ul{
+    padding: 0px;
+    margin: 0px;
+}
+
+div.tab{
+    float: left;
+    width: 400px;
+}
+
+div.multiline{
+    margin-top: 15px;
+}

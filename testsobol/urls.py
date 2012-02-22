@@ -1,12 +1,13 @@
 from django.conf.urls.defaults import patterns, include, url
+from testsobol.mainapp.views import Index
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
-# admin.autodiscover()
+#admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'testsobol.views.home', name='home'),
+    url(r'^$', Index.as_view())#, name='index'),
     # url(r'^testsobol/', include('testsobol.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
