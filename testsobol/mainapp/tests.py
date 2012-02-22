@@ -38,3 +38,10 @@ class RequestViewTest(TestCase):
         page = self.client.get('/http/')
         self.assertEqual(page.status_code, 200)
         self.assertTrue(bool(page.context['request']))
+
+class SettingsContextTest(TestCase):
+    
+    def test(self):
+        page = self.client.get('')
+        self.assertEqual(page.status_code, 200)
+        self.assertTrue(page.context['settings'])
