@@ -9,3 +9,8 @@ class Bio(models.Model):
     skype = models.CharField(max_length=250)
     other = models.TextField()
     bio = models.TextField()
+
+class Request(models.Model):
+    date = models.DateTimeField()
+    url = models.CharField(max_length=250)
+    ip = models.CharField(max_length=250)
