@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>10 Requests</h1>
+    <table>
+    {% for r in request %}
+        <tr>
+            <td>{{ r.date }}</td>
+            <td>{{ r.url }}</td>
+            <td>{{r.ip}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}
