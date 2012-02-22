@@ -29,7 +29,7 @@ class RequestTest(TestCase):
 
     def test(self):
         page = self.client.get('')
-        self.assertTrue(bool(Request.objects.filter(date__lte = (datetime.now() - timedelta(minutes=1)))))
+        self.assertTrue(bool(Request.objects.filter(date__gte = (datetime.now() - timedelta(minutes=1)))))
 
 
 class RequestViewTest(TestCase):

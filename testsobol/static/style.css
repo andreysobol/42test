@@ -20,3 +20,16 @@ div.tab{
 div.multiline{
     margin-top: 15px;
 }
+
+div.clear{
+    clear: both;
+}
+
+td{
+    padding:0px 20px;
+}
+
+a{
+    display: block;
+    margin-top: 20px;
+}
