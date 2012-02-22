@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>42 Coffee Cups Test Assignment</h1>
+    <div class="tab">
+        <ul>
+            <li>Name: <i>{{ name }}</i></li>
+            <li>Last name: <i>{{ surname }}</i></li>
+            <li>Date of birth: <i>{{ birth }}</i></li>
+        </ul>
+        <div class="multiline">
+            <div>Bio:</div>
+            <div>{{ bio }}</div>
+        </div>
+    </div>
+    <div class="tab">
+        <ul>
+            <li>Email: <i>{{ email }}</i></li>
+            <li>Jabber: <i>{{ jabber }}</i></li>
+            <li>Skype: <i>{{ skype }}</i></li>
+        </ul>
+        <div class="multiline">
+            <div>Other contacts:</div>
+            <div>{{ other }}</div>
+        </div>
+    </div>
+{% endblock %}
