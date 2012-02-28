@@ -1,7 +1,12 @@
-from django.views.generic import TemplateView, ListView
+from django.views.generic import View, TemplateView, ListView
 from django.forms.models import model_to_dict
+from django.shortcuts import redirect, render_to_response
+from django.template import RequestContext
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 from models import Bio, Request
+from forms import BioForm
 
 class Index(TemplateView):
 
@@ -9,7 +14,36 @@ class Index(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(Index, self).get_context_data(**kwargs)
-        return model_to_dict(Bio.objects.get(pk = 1))
+        return {'renders':Bio.objects.get(pk = 1).render()}
+
+
+class Edit(View):
+    
+    def render(self,request,form):
+        return render_to_response('index.html',RequestContext(request,{'renders':form.render(), 'form':True}))
+
+    @method_decorator(login_required())
+    def dispatch(self, request, *args, **kwargs):
+        return super(Edit, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        form = BioForm(model_to_dict(Bio.objects.get(pk = 1)),{'img':Bio.objects.get(pk = 1).img})
+        render=form.render()
+        return self.render(request,form)
+
+    def post(self, request):
+        if not request.FILES:
+            form = BioForm(request.POST, {'img':Bio.objects.get(pk = 1).img})
+        else:
+            form = BioForm(request.POST, request.FILES)
+        if form.is_valid():
+            model = form.save(commit=False)
+            model.id = 1
+            model.save()
+            return redirect('/')
+        else:
+            return self.render(request,form)
+
 
 class Http(ListView):
 

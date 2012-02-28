@@ -17,7 +17,8 @@ div.tab{
     width: 400px;
 }
 
-div.multiline{
+span.multiline{
+    display: block;
     margin-top: 15px;
 }
 
@@ -25,11 +26,25 @@ div.clear{
     clear: both;
 }
 
+ul.error{
+    color: red;
+    font-size: 11px;
+    margin-bottom: 10px;
+}
+
 td{
     padding:0px 20px;
 }
 
-a{
-    display: block;
+div.but{
     margin-top: 20px;
+}
+
+a{
+    margin-right: 15px;
+}
+
+img{
+    display:block;
+    width:370px;
 }
