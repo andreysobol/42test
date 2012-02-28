@@ -18,7 +18,7 @@ class Bio(models.Model, Render):
 
         get = lambda item: {'value':unicode(getattr(self,item)) if item!='img' else '<img src="%s" />' % getattr(self,item).url,'label':field_types[item]}
 
-        return self.get_struct(get)
+        return self.get_struct(get, False)
 
 class Request(models.Model):
     date = models.DateTimeField()

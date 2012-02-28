@@ -29,4 +29,4 @@ class BioForm(ModelForm, Render):
 
         get = lambda item: form_field[item]
 
-        return self.get_struct(get)
+        return self.get_struct(get, True)
