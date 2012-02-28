@@ -1,28 +1,57 @@
 {% extends "base.html" %}
 {% block content %}
     <h1>42 Coffee Cups Test Assignment</h1>
+
+    {% if form %}
+    <form method="post" enctype="multipart/form-data" action=".">
+    {% csrf_token %}
+    {% endif %}
+
+    {% for render in renders %}
     <div class="tab">
-        <ul>
-            <li>Name: <i>{{ name }}</i></li>
-            <li>Last name: <i>{{ surname }}</i></li>
-            <li>Date of birth: <i>{{ birth }}</i></li>
-        </ul>
-        <div class="multiline">
-            <div>Bio:</div>
-            <div>{{ bio }}</div>
-        </div>
+    <ul>
+        {% for item in render %}
+            <li>
+
+            <span {% if item.multiline %}class="multiline"{% endif %}>{{ item.label }}: </span>
+
+            {% ifequal item.label 'Photo' %}
+                {% autoescape off %}
+                {{ item.value }}
+                {% endautoescape %}
+            {% else %}
+                <i>{{ item.value }}</i>
+            {% endifequal %}
+            
+            {% if item.errors %}
+            <ul class="error">
+                {% for error in item.errors %}
+                    <li>*{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            </li>
+        {% endfor %}
+    </ul>
     </div>
-    <div class="tab">
-        <ul>
-            <li>Email: <i>{{ email }}</i></li>
-            <li>Jabber: <i>{{ jabber }}</i></li>
-            <li>Skype: <i>{{ skype }}</i></li>
-        </ul>
-        <div class="multiline">
-            <div>Other contacts:</div>
-            <div>{{ other }}</div>
-        </div>
-    </div>
+    {% endfor %}
+
     <div class="clear"></div>
-    <a href="/http/">request</a>
+
+    {% if form %}
+    <div class="but">
+        <input type="submit" value="Okay">
+    </div>
+    </form>
+    {% else %}
+    <div class="but">
+        {% if user.is_authenticated %}
+        <a href="/edit/">edit</a>
+        {% else %}
+        <a href="/edit/">login and edit</a>
+        {% endif %}
+        <a href="/http/">request</a>
+    </div>
+    {% endif %}
 {% endblock %}

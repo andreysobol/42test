@@ -7,6 +7,7 @@ Replace this with more appropriate tests for your application.
 from datetime import datetime, timedelta
 
 from django.test import TestCase
+from django.forms.models import model_to_dict
 
 from models import Bio, Request
 
@@ -15,14 +16,14 @@ class IndexViewTest(TestCase):
 
     def test(self):
         fixtures = ['initial_data.json']
-        bio = Bio.objects.get(pk = 1)
+        
         page = self.client.get('')
 
         self.assertEqual(page.status_code, 200)
-
-        lines = ('name','surname','birth','email','jabber','skype','bio','other',)
-        for line in lines:
-            self.assertEqual(page.context[line],getattr(bio,line))
+        
+        for key,value in model_to_dict(Bio.objects.get(pk = 1)).items():
+            if key!='id':
+                self.assertTrue(page.content.find(unicode(value)) != -1)
 
 
 class RequestTest(TestCase):
@@ -45,3 +46,20 @@ class SettingsContextTest(TestCase):
         page = self.client.get('')
         self.assertEqual(page.status_code, 200)
         self.assertTrue(page.context['settings'])
+
+
+class Edit(TestCase):
+    
+    def test(self):
+        fixtures = ['initial_data.json']
+
+        page = self.client.post('/accounts/login/', {'username': 'admin', 'password': 'admin'})
+        self.assertEqual(page.status_code, 302)
+        
+        page = self.client.post('/edit/', {"bio": "Noooooooooooooo", "surname": "Sobol", "name": "Andrey", "other": "pigeon post - white pigeon only", "birth": "1990-09-18", "skype": "andreysobol", "jabber": "pisecs@gmail.com", "email": "asobol@mail.ua"})
+        self.assertEqual(page.status_code, 302)
+        self.assertTrue(Bio.objects.get(pk = 1).bio == "Noooooooooooooo")
+        
+        page = self.client.post('/edit/', {"bio": "Noooooooooooooo", "surname": "Sobol", "name": "Andrey", "other": "pigeon post - white pigeon only"})
+        self.assertEqual(page.status_code, 200)
+        self.assertTrue(page.content.find("error") != -1)
