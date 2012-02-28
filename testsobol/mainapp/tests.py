@@ -83,3 +83,17 @@ class AjaxEdit(TestCase):
 
         page = self.client.get('/')
         self.assertTrue(page.content.find('<script') == -1)
+
+
+class EditReverse(TestCase):
+
+    def test(self):
+        fixtures = ['initial_data.json']
+        
+        page = self.client.get('/')
+        self.assertTrue(page.content.find('Name') < page.content.find('Last'))
+        self.assertTrue(page.content.find('Bio') > page.content.find('Other'))
+
+        page = self.client.get('/edit/')
+        self.assertTrue(page.content.find('Name') > page.content.find('Last'))
+        self.assertTrue(page.content.find('Bio') < page.content.find('Other'))
