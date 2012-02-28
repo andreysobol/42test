@@ -57,9 +57,29 @@ class Edit(TestCase):
         self.assertEqual(page.status_code, 302)
         
         page = self.client.post('/edit/', {"bio": "Noooooooooooooo", "surname": "Sobol", "name": "Andrey", "other": "pigeon post - white pigeon only", "birth": "1990-09-18", "skype": "andreysobol", "jabber": "pisecs@gmail.com", "email": "asobol@mail.ua"})
-        self.assertEqual(page.status_code, 302)
+        self.assertEqual(page.status_code, 200)
+        self.assertTrue(page.content == 'Okay')
         self.assertTrue(Bio.objects.get(pk = 1).bio == "Noooooooooooooo")
         
         page = self.client.post('/edit/', {"bio": "Noooooooooooooo", "surname": "Sobol", "name": "Andrey", "other": "pigeon post - white pigeon only"})
         self.assertEqual(page.status_code, 200)
         self.assertTrue(page.content.find("error") != -1)
+
+
+class AjaxEdit(TestCase):
+
+    def test(self):
+        fixtures = ['initial_data.json']
+        
+        page = self.client.post('/accounts/login/', {'username': 'admin', 'password': 'admin'})
+        self.assertEqual(page.status_code, 302)
+
+        page = self.client.post('/edit/')
+        self.assertTrue(page.content.find('<body>') == -1)
+        
+        page = self.client.get('/edit/')
+        self.assertTrue(page.content.find('<body>') != -1)
+        self.assertTrue(page.content.find('<script') != -1)
+
+        page = self.client.get('/')
+        self.assertTrue(page.content.find('<script') == -1)
