@@ -91,9 +91,11 @@ class EditReverse(TestCase):
         fixtures = ['initial_data.json']
         
         page = self.client.get('/')
-        self.assertTrue(page.content.find('Name') < page.content.find('Last'))
-        self.assertTrue(page.content.find('Bio') > page.content.find('Other'))
+        self.assertTrue(page.content.find('>Name:') < page.content.find('Last name:'))
+        self.assertTrue(page.content.find('Bio:') > page.content.find('Other'))
+
+        page = self.client.post('/accounts/login/', {'username': 'admin', 'password': 'admin'})
 
         page = self.client.get('/edit/')
-        self.assertTrue(page.content.find('Name') > page.content.find('Last'))
-        self.assertTrue(page.content.find('Bio') < page.content.find('Other'))
+        self.assertTrue(page.content.find('>Name:') > page.content.find('Last name:'))
+        self.assertTrue(page.content.find('Bio:') < page.content.find('Other'))
