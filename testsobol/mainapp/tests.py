@@ -11,7 +11,7 @@ from subprocess import Popen, PIPE
 from django.test import TestCase
 from django.forms.models import model_to_dict
 
-from models import Bio, Request
+from models import Bio, Request, Log
 
 
 class IndexViewTest(TestCase):
@@ -127,3 +127,21 @@ class Command(TestCase):
                 self.assertTrue((f.read()).find('error') != -1)
                 f.close()
                 Popen("rm " + d, stdout=PIPE, stderr=PIPE, shell=True)
+
+
+class Signal(TestCase):
+    
+    def test(self):
+        b = Bio(bio="Noooooooooooooo", surname="Sobol", name="Andrey", other="pigeon post - white pigeon only", birth="1990-09-18", skype="andreysobol", jabber="pisecs@gmail.com", email="asobol@mail.ua", img="img/1.jpg")
+        b.save()
+        self.assertEqual(Log.objects.order_by('-id')[0].model,'Bio')
+        self.assertEqual(Log.objects.order_by('-id')[0].signal,'create')
+       
+        b.bio="sfsf"
+        b.save()
+        self.assertEqual(Log.objects.order_by('-id')[0].model,'Bio')
+        self.assertEqual(Log.objects.order_by('-id')[0].signal,'update')
+
+        b.delete()
+        self.assertEqual(Log.objects.order_by('-id')[0].model,'Bio')
+        self.assertEqual(Log.objects.order_by('-id')[0].signal,'delete')
