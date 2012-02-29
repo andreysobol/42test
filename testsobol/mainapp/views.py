@@ -48,7 +48,7 @@ class Edit(View):
 
 class Http(ListView):
 
-    context_object_name = 'request'
+    context_object_name = 'custom_request'
     template_name = 'http.html'
     paginate_by = 10
 
