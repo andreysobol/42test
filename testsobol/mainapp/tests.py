@@ -38,7 +38,7 @@ class RequestViewTest(TestCase):
     def test(self):
         page = self.client.get('/http/')
         self.assertEqual(page.status_code, 200)
-        self.assertTrue(bool(page.context['request']))
+        self.assertTrue(bool(page.context['custom_request']))
 
 class SettingsContextTest(TestCase):
     
@@ -99,3 +99,14 @@ class EditReverse(TestCase):
         page = self.client.get('/edit/')
         self.assertTrue(page.content.find('>Name:') > page.content.find('Last name:'))
         self.assertTrue(page.content.find('Bio:') < page.content.find('Other'))
+
+
+class Tag(TestCase):
+
+    def test(self):
+        fixtures = ['initial_data.json']
+
+        page = self.client.post('/accounts/login/', {'username': 'admin', 'password': 'admin'})
+
+        page = self.client.get('/')
+        self.assertTrue(page.content.find('<a href="/admin/auth/user/1/"') != -1 )
