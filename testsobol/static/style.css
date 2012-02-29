@@ -48,3 +48,13 @@ img{
     display:block;
     width:370px;
 }
+
+h1{
+    float: left;
+}
+
+div.ed{
+    margin-top:30px;
+    margin-left:70px;
+    float:left;
+}
