@@ -145,3 +145,15 @@ class Signal(TestCase):
         b.delete()
         self.assertEqual(Log.objects.order_by('-id')[0].model,'Bio')
         self.assertEqual(Log.objects.order_by('-id')[0].signal,'delete')
+
+class RequestPriority(TestCase):
+
+    def test(self):
+        fixtures = ['initial_data.json']
+        page = self.client.get('/http/')
+        self.assertEqual(page.status_code, 200)
+        b = False;
+        for r in page.context['custom_request']:
+            if r['url']=='/http/' and r['priority']==2:
+                b = True
+        self.assertTrue(b)
