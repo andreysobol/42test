@@ -26,6 +26,13 @@ class Request(models.Model):
     url = models.CharField(max_length=250)
     ip = models.CharField(max_length=250)
 
+class RequestPriority(models.Model):
+    url = models.CharField(max_length=250)
+    priority = models.IntegerField()
+
+    def __unicode__(self):
+        return 'url="' + self.url + '" prioryty=' + str(self.priority)
+
 class Log(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     model = models.CharField(max_length=250)
