@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
-from models import Bio, Request
+from models import Bio, Request, RequestPriority
 from forms import BioForm
 
 class Index(TemplateView):
@@ -46,11 +46,37 @@ class Edit(View):
             return self.render(request,form,'content.html')
 
 
-class Http(ListView):
+class Http(TemplateView):
 
-    context_object_name = 'custom_request'
     template_name = 'http.html'
-    paginate_by = 10
 
-    def get_queryset(self):
-        return Request.objects.order_by('-date')
+    def get_context_data(self, **kwargs):
+
+        def add(filter):
+        
+            req = Request.objects.exclude(url__in = exlude_list)
+
+            if filter:
+                req = req.filter(url = p.url)
+
+            req = req.order_by('-date')
+            
+            return [dict(model_to_dict(r).items() + ([('priority', p.priority)] if filter else [('priority', 0)])) for r in req]
+            
+        paginate_by = 10
+
+        exlude_list = []
+        result = []
+
+        for p in RequestPriority.objects.order_by('-priority'):
+
+            result += add(True)
+            
+            if len(result) > paginate_by:
+                return {'custom_request':result[0:paginate_by]}
+            else:
+                exlude_list.append(p.url)
+
+        result += add(False)
+
+        return {'custom_request':(result if len(result) < paginate_by else result[0:paginate_by])}
