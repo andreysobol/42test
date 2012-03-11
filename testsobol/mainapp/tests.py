@@ -122,12 +122,12 @@ class EditReverse(TestCase):
 class Tag(TestCase):
 
     def test(self):
-        fixtures = ['initial_data.json']
-
-        page = self.client.post('/accounts/login/', {'username': 'admin', 'password': 'admin'})
+        page = self.client.post('/accounts/login/',
+            {'username': 'admin', 'password': 'admin'})
 
         page = self.client.get('/')
-        self.assertTrue(page.content.find('<a href="/admin/auth/user/1/"') != -1 )
+        self.assertTrue(page.content.find(
+            '<a href="/admin/auth/user/1/"') != -1)
 
 
 class NameUrlTest(TestCase):
