@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Bio(models.Model):
     name = models.CharField(max_length=250)
     surname = models.CharField(max_length=250)
@@ -9,6 +10,7 @@ class Bio(models.Model):
     skype = models.CharField(max_length=250)
     other = models.TextField()
     bio = models.TextField()
+
 
 class Request(models.Model):
     date = models.DateTimeField()
