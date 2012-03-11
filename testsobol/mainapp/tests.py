@@ -12,12 +12,12 @@ from models import Bio
 
 class IndexViewTest(TestCase):
     def test(self):
-        fixtures = ['initial_data.json']
-        bio = Bio.objects.get(pk = 1)
+        bio = Bio.objects.get(pk=1)
         page = self.client.get('')
 
         self.assertEqual(page.status_code, 200)
 
-        lines = ('name','surname','birth','email','jabber','skype','bio','other',)
+        lines = ('name', 'surname', 'birth', 'email',
+                 'jabber', 'skype', 'bio', 'other',)
         for line in lines:
-            self.assertEqual(page.context[line],getattr(bio,line))
+            self.assertEqual(page.context[line], getattr(bio, line))
