@@ -85,14 +85,13 @@ class Edit(TestCase):
 class AjaxEdit(TestCase):
 
     def test(self):
-        fixtures = ['initial_data.json']
-        
-        page = self.client.post('/accounts/login/', {'username': 'admin', 'password': 'admin'})
+        page = self.client.post('/accounts/login/',
+            {'username': 'admin', 'password': 'admin'})
         self.assertEqual(page.status_code, 302)
 
         page = self.client.post('/edit/')
         self.assertTrue(page.content.find('<body>') == -1)
-        
+
         page = self.client.get('/edit/')
         self.assertTrue(page.content.find('<body>') != -1)
         self.assertTrue(page.content.find('<script') != -1)

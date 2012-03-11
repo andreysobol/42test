@@ -20,6 +20,8 @@ $(function(){
                 url:'/edit/',
                 type: 'post',
                 success: function(response){
+                    $('input').removeAttr('readonly');
+                    $('textarea').removeAttr('readonly');
                     if(response=="Okay"){
                         $('.mess').html('Bio update. <a href="/">View.</a>');
                         $('.error').css('display','none');
@@ -33,6 +35,8 @@ $(function(){
                 },
                 beforeSubmit: function(){
                     $('input[type="submit"]').css('display','none');
+                    $('input').attr('readonly','readonly');
+                    $('textarea').attr('readonly','readonly');
                     $('.mess').html('<img src="/static/ajax-loader.gif" style="width:32px;"/>');
                 }
             }
