@@ -11,6 +11,7 @@ class Bio(models.Model):
     other = models.TextField()
     bio = models.TextField()
 
+
 class Request(models.Model):
     date = models.DateTimeField()
     url = models.CharField(max_length=250)

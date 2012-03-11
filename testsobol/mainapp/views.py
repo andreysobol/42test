@@ -12,6 +12,7 @@ class Index(TemplateView):
         super(Index, self).get_context_data(**kwargs)
         return model_to_dict(Bio.objects.get(pk=1))
 
+
 class Http(ListView):
 
     context_object_name = 'request'
@@ -19,4 +20,4 @@ class Http(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Request.objects.order_by('-date')
+        return Request.objects.order_by('date')

@@ -8,7 +8,7 @@ from testsobol.mainapp.views import Index, Http
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', Index.as_view()),
-    url(r'^http/$', Http.as_view()),
+    url(r'^http/$', Http.as_view(), name="http"),
     # url(r'^testsobol/', include('testsobol.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

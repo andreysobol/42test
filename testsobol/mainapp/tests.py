@@ -29,7 +29,11 @@ class RequestTest(TestCase):
 
     def test(self):
         page = self.client.get('')
-        self.assertTrue(bool(Request.objects.filter(date__gte = (datetime.now() - timedelta(minutes=1)))))
+
+        self.assertEqual(page.status_code, 200)
+
+        self.assertTrue(bool(Request.objects.filter(
+            date__gte=(datetime.now() - timedelta(minutes=1)))))
 
 
 class RequestViewTest(TestCase):
@@ -38,3 +42,22 @@ class RequestViewTest(TestCase):
         page = self.client.get('/http/')
         self.assertEqual(page.status_code, 200)
         self.assertTrue(bool(page.context['request']))
+
+
+class NameUrlTest(TestCase):
+
+    def test(self):
+        page = self.client.get('/')
+        self.assertEqual(page.status_code, 200)
+        self.assertTrue(page.content.find('a href="/http/"') != -1)
+
+
+class ManyRequestTest(TestCase):
+
+    def test(self):
+        for t in range(11):
+            page = self.client.get('/')
+            self.assertEqual(page.status_code, 200)
+
+        page = self.client.get('/http/')
+        self.assertTrue(page.context['request'].count() == 10)
