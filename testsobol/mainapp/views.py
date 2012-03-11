@@ -8,12 +8,13 @@ from django.contrib.auth.decorators import login_required
 from models import Bio, Request
 from forms import BioForm
 
+
 class Index(TemplateView):
 
     template_name = 'index.html'
 
     def get_context_data(self, **kwargs):
-        context = super(Index, self).get_context_data(**kwargs)
+        super(Index, self).get_context_data(**kwargs)
         return {'renders':Bio.objects.get(pk = 1).render()}
 
 
@@ -52,4 +53,4 @@ class Http(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Request.objects.order_by('-date')
+        return Request.objects.order_by('date')

@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls.defaults import patterns, url
 from django.conf import settings
 from testsobol.mainapp.views import Index, Http, Edit
 
@@ -10,7 +10,7 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', Index.as_view()),
     url(r'^edit/$', Edit.as_view()),
-    url(r'^http/$', Http.as_view()),
+    url(r'^http/$', Http.as_view(), name="http"),
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     (r'^accounts/login/$', 'django.contrib.auth.views.login', { "template_name": "admin/login.html" } ),
 

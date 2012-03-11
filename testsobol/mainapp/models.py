@@ -20,6 +20,7 @@ class Bio(models.Model, Render):
 
         return self.get_struct(get)
 
+
 class Request(models.Model):
     date = models.DateTimeField()
     url = models.CharField(max_length=250)
