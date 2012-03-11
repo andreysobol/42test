@@ -2,8 +2,9 @@ from datetime import datetime
 
 from models import Request
 
+
 class RequestMiddleware(object):
-    
+
     def process_request(self, request):
         r = Request()
         r.date = datetime.now()
