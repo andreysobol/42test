@@ -1,4 +1,4 @@
-from django.views.generic import View, TemplateView, ListView
+from django.views.generic import View, TemplateView
 from django.forms.models import model_to_dict
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -57,16 +57,18 @@ class Http(TemplateView):
     def get_context_data(self, **kwargs):
 
         def add(filter):
-        
-            req = Request.objects.exclude(url__in = exlude_list)
+
+            req = Request.objects.exclude(url__in=exlude_list)
 
             if filter:
-                req = req.filter(url = p.url)
+                req = req.filter(url=p.url)
 
             req = req.order_by('date')
-            
-            return [dict(model_to_dict(r).items() + ([('priority', p.priority)] if filter else [('priority', 0)])) for r in req]
-            
+
+            return [dict(model_to_dict(r).items() +
+                ([('priority', p.priority)] if filter else [('priority', 0)]))
+                for r in req]
+
         paginate_by = 10
 
         exlude_list = []
@@ -75,15 +77,16 @@ class Http(TemplateView):
         for p in RequestPriority.objects.order_by('-priority'):
 
             result += add(True)
-            
+
             if len(result) > paginate_by:
-                return {'custom_request':result[0:paginate_by]}
+                return {'custom_request': result[0:paginate_by]}
             else:
                 exlude_list.append(p.url)
 
         result += add(False)
 
-        return {'custom_request':(result if len(result) < paginate_by else result[0:paginate_by])}
+        return {'custom_request': (result if len(result) < paginate_by
+            else result[0:paginate_by])}
 
     def get_queryset(self):
         return Request.objects.order_by('date')
