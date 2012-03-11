@@ -8,6 +8,7 @@ from django.http import HttpResponse
 
 from models import Bio, Request
 from forms import BioForm
+from utils import DataRender
 
 
 class Index(TemplateView):
@@ -16,7 +17,8 @@ class Index(TemplateView):
 
     def get_context_data(self, **kwargs):
         super(Index, self).get_context_data(**kwargs)
-        return {'renders': Bio.objects.get(pk=1).render()}
+        d = DataRender(Bio.objects.get(pk=1))
+        return {'renders': d.render()}
 
 
 class Edit(View):
