@@ -144,13 +144,14 @@ class NameUrlTest(TestCase):
 class Command(TestCase):
 
     def test(self):
-        p = Popen("python manage.py printmodels", stdout=PIPE, stderr=PIPE, shell=True).stdout.read()
-        self.assertTrue(p.find('Bio')!=-1)
+        p = Popen("python manage.py printmodels",
+            stdout=PIPE, stderr=PIPE, shell=True).stdout.read()
+        self.assertTrue(p.find('Bio') != -1)
         Popen("bash save.bash", stdout=PIPE, stderr=PIPE, shell=True)
         l = os.listdir(".")
         for d in l:
-            if d.find('.dat')!=-1:
-                f = open(d,'r')
+            if d.find('.dat') != -1:
+                f = open(d, 'r')
                 self.assertTrue((f.read()).find('error') != -1)
                 f.close()
                 Popen("rm " + d, stdout=PIPE, stderr=PIPE, shell=True)
