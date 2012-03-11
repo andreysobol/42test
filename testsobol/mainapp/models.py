@@ -19,24 +19,28 @@ class Request(models.Model):
     url = models.CharField(max_length=250)
     ip = models.CharField(max_length=250)
 
+
 class Log(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     model = models.CharField(max_length=250)
     signal = models.CharField(max_length=250)
 
+
 def save(sender, **kwargs):
     if sender != Log:
         if kwargs['created']:
-            signal='create'
+            signal = 'create'
         else:
-            signal='update'
+            signal = 'update'
 
-        log = Log(model = sender.__name__, signal = signal)
+        log = Log(model=sender.__name__, signal=signal)
         log.save()
 
+
 def delete(sender, **kwargs):
-    log = Log(model = sender.__name__, signal = 'delete')
+    log = Log(model=sender.__name__, signal='delete')
     log.save()
+
 
 post_save.connect(save)
 post_delete.connect(delete)

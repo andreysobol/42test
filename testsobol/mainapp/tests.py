@@ -158,7 +158,7 @@ class Command(TestCase):
 
 
 class Signal(TestCase):
-    
+
     def test(self):
         b = Bio(bio="Noooooooooooooo", surname="Sobol",
             name="Andrey", other="pigeon post - white pigeon only",
@@ -166,17 +166,17 @@ class Signal(TestCase):
             jabber="pisecs@gmail.com", email="asobol@mail.ua",
             img="img/1.jpg")
         b.save()
-        self.assertEqual(Log.objects.order_by('-id')[0].model,'Bio')
-        self.assertEqual(Log.objects.order_by('-id')[0].signal,'create')
-       
-        b.bio="sfsf"
+        self.assertEqual(Log.objects.order_by('-id')[0].model, 'Bio')
+        self.assertEqual(Log.objects.order_by('-id')[0].signal, 'create')
+
+        b.bio = "sfsf"
         b.save()
-        self.assertEqual(Log.objects.order_by('-id')[0].model,'Bio')
-        self.assertEqual(Log.objects.order_by('-id')[0].signal,'update')
+        self.assertEqual(Log.objects.order_by('-id')[0].model, 'Bio')
+        self.assertEqual(Log.objects.order_by('-id')[0].signal, 'update')
 
         b.delete()
-        self.assertEqual(Log.objects.order_by('-id')[0].model,'Bio')
-        self.assertEqual(Log.objects.order_by('-id')[0].signal,'delete')
+        self.assertEqual(Log.objects.order_by('-id')[0].model, 'Bio')
+        self.assertEqual(Log.objects.order_by('-id')[0].signal, 'delete')
 
 
 class ManyRequestTest(TestCase):
