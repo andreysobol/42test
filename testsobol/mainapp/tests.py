@@ -45,11 +45,12 @@ class RequestViewTest(TestCase):
 
 
 class SettingsContextTest(TestCase):
-    
+
     def test(self):
         page = self.client.get('')
         self.assertEqual(page.status_code, 200)
         self.assertTrue(page.context['settings'])
+        self.assertEqual(page.context['settings'].STATIC_URL, '/static/')
 
 
 class NameUrlTest(TestCase):
