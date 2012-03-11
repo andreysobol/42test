@@ -47,9 +47,9 @@
     {% else %}
     <div class="but">
         {% if user.is_authenticated %}
-        <a href="/edit/">edit</a>
+        <a href="{% url edit %}">edit</a>
         {% else %}
-        <a href="/edit/">login and edit</a>
+        <a href="{% url edit %}">login and edit</a>
         {% endif %}
         <a href="{% url http %}">request</a>
     </div>

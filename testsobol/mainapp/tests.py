@@ -18,9 +18,9 @@ class IndexViewTest(TestCase):
         page = self.client.get('')
 
         self.assertEqual(page.status_code, 200)
-        
-        for key,value in model_to_dict(Bio.objects.get(pk = 1)).items():
-            if key!='id':
+
+        for key, value in model_to_dict(Bio.objects.get(pk=1)).items():
+            if key != 'id':
                 self.assertTrue(page.content.find(unicode(value)) != -1)
 
 
@@ -53,18 +53,30 @@ class SettingsContextTest(TestCase):
 
 
 class Edit(TestCase):
-    
-    def test(self):
-        fixtures = ['initial_data.json']
 
-        page = self.client.post('/accounts/login/', {'username': 'admin', 'password': 'admin'})
+    def test(self):
+        page = self.client.post('/accounts/login/',
+            {'username': 'admin', 'password': 'admin'})
         self.assertEqual(page.status_code, 302)
-        
-        page = self.client.post('/edit/', {"bio": "Noooooooooooooo", "surname": "Sobol", "name": "Andrey", "other": "pigeon post - white pigeon only", "birth": "1990-09-18", "skype": "andreysobol", "jabber": "pisecs@gmail.com", "email": "asobol@mail.ua"})
+
+        s = {"bio": "Noooooooooooooo",
+            "surname": "Sobol",
+            "name": "Andrey",
+            "other": "pigeon post - white pigeon only",
+            "birth": "1990-09-18",
+            "skype": "andreysobol",
+            "jabber": "pisecs@gmail.com",
+            "email": "asobol@mail.ua"}
+        page = self.client.post('/edit/', s)
         self.assertEqual(page.status_code, 302)
-        self.assertTrue(Bio.objects.get(pk = 1).bio == "Noooooooooooooo")
-        
-        page = self.client.post('/edit/', {"bio": "Noooooooooooooo", "surname": "Sobol", "name": "Andrey", "other": "pigeon post - white pigeon only"})
+        for t in s:
+            self.assertEqual(unicode(getattr(Bio.objects.get(pk=1), t)), s[t])
+
+        page = self.client.post('/edit/',
+            {"bio": "Noooooooooooooo",
+            "surname": "Sobol",
+            "name": "Andrey",
+            "other": "pigeon post - white pigeon only"})
         self.assertEqual(page.status_code, 200)
         self.assertTrue(page.content.find("error") != -1)
 
@@ -75,6 +87,7 @@ class NameUrlTest(TestCase):
         page = self.client.get('/')
         self.assertEqual(page.status_code, 200)
         self.assertTrue(page.content.find('a href="/http/"') != -1)
+        self.assertTrue(page.content.find('a href="/edit/"') != -1)
 
 
 class ManyRequestTest(TestCase):
